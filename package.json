@@ -1,0 +1,44 @@
+{
+  "name": "module-finder",
+  "version": "1.0.0",
+  "description": "Finds and filters locally and/or globally installed modules using MongoDB like queries.",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "npm run -s lint",
+    "test": "tape 'src/**/*-test.js'",
+    "lint": "semistandard"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/joakimbeng/module-finder"
+  },
+  "keywords": [
+    "module",
+    "find",
+    "global",
+    "local",
+    "package",
+    "find modules",
+    "locate package"
+  ],
+  "author": "Joakim Carlstein <joakim@klei.se>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joakimbeng/module-finder/issues"
+  },
+  "homepage": "https://github.com/joakimbeng/module-finder",
+  "dependencies": {
+    "async-reduce": "0.0.1",
+    "is-existing-file": "^1.0.0",
+    "is-existing-folder": "^1.0.0",
+    "npm-root": "^1.1.0",
+    "read-package-json": "^2.0.0",
+    "readdirs-absolute": "^1.0.0",
+    "semver": "~4.2.0",
+    "sift": "^2.0.3"
+  },
+  "devDependencies": {
+    "semistandard": "^7.0.2",
+    "tape": "^4.0.2"
+  }
+}
