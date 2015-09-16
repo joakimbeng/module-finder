@@ -1,6 +1,6 @@
 {
   "name": "module-finder",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Finds and filters locally and/or globally installed modules using MongoDB like queries.",
   "main": "index.js",
   "scripts": {
