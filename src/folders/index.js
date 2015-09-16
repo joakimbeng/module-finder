@@ -1,45 +1,19 @@
 'use strict';
-var root = require('npm-root');
-var isExistingFolder = require('is-existing-folder');
-var reduce = require('async-reduce');
+var pify = require('pify');
+var root = pify(require('npm-root'));
 
-module.exports = exports = function folders (opts, cb) {
-  getPaths(opts, function (err, paths) {
-    if (err) {
-      return cb(err);
-    }
-    exports.getExistingFolders(paths, cb);
-  });
-};
-
-function getPaths (options, done) {
+module.exports = function folders(opts) {
   var rootOptions = [];
 
-  if (options.global) {
+  if (opts.global) {
     rootOptions.push({global: true});
   }
 
-  if (options.local) {
-    rootOptions.push({cwd: options.cwd});
+  if (opts.local) {
+    rootOptions.push({cwd: opts.cwd});
   }
 
-  reduce(rootOptions, [], function (paths, opts, cb) {
-    root(opts, function (err, path) {
-      if (!err) {
-        paths.push(path);
-      }
-      cb(err, paths);
-    });
-  }, done);
-}
-
-exports.getExistingFolders = function getExistingFolders (paths, done) {
-  reduce(paths, [], function (result, path, cb) {
-    isExistingFolder(path, function (yes) {
-      if (yes) {
-        result.push(path);
-      }
-      cb(null, result);
-    });
-  }, done);
+  return Promise.all(rootOptions.map(function (opts) {
+    return root(opts);
+  }));
 };

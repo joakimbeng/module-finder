@@ -8,7 +8,6 @@ sift.use({
   }
 });
 
-module.exports = exports = function filter (arr, f, cb) {
-  f = f || {};
-  cb(null, sift(f, arr));
+module.exports = exports = function filter(arr, f) {
+  return Promise.resolve(sift(f || {}, arr));
 };

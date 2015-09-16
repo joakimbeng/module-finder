@@ -4,9 +4,9 @@
   "description": "Finds and filters locally and/or globally installed modules using MongoDB like queries.",
   "main": "index.js",
   "scripts": {
+    "lint": "xo",
     "pretest": "npm run -s lint",
-    "test": "tape 'src/**/*-test.js'",
-    "lint": "semistandard"
+    "test": "ava 'src/**/*-test.js'"
   },
   "repository": {
     "type": "git",
@@ -15,9 +15,13 @@
   "keywords": [
     "module",
     "find",
+    "search",
+    "mongodb",
+    "package finder",
     "global",
     "local",
     "package",
+    "installed",
     "find modules",
     "locate package"
   ],
@@ -28,17 +32,20 @@
   },
   "homepage": "https://github.com/joakimbeng/module-finder",
   "dependencies": {
-    "async-reduce": "0.0.1",
-    "is-existing-file": "^1.0.0",
-    "is-existing-folder": "^1.0.0",
     "npm-root": "^1.1.0",
-    "read-package-json": "^2.0.0",
-    "readdirs-absolute": "^1.0.0",
+    "object-assign": "^4.0.1",
+    "pify": "^2.2.0",
+    "promise-reduce": "^2.0.0",
+    "read-pkg": "^1.1.0",
+    "readdirp": "^2.0.0",
     "semver": "~4.2.0",
     "sift": "^2.0.3"
   },
   "devDependencies": {
-    "semistandard": "^7.0.2",
-    "tape": "^4.0.2"
+    "ava": "^0.2.0",
+    "xo": "^0.9.0"
+  },
+  "xo": {
+    "space": true
   }
 }

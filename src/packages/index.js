@@ -1,51 +1,43 @@
 'use strict';
-var join = require('path').join;
 var dirname = require('path').dirname;
-var reduce = require('async-reduce');
-var readJson = require('read-package-json');
-var isExistingFile = require('is-existing-file');
-var readdirs = require('readdirs-absolute');
+var reduce = require('promise-reduce');
+var readPkg = require('read-pkg');
+var readdirp = require('readdirp');
 
 module.exports = exports = getPackageInfos;
 
-function getPackageInfos (paths, cb) {
-  readdirs(paths, function (err, folders) {
-    if (err) {
-      return cb(err);
-    }
-    getOnlyPackages(folders, function (err, pkgs) {
-      if (err) {
-        return cb(err);
-      }
-      readPackageInfos(pkgs, cb);
-    });
-  });
+function getPackageInfos(paths, opts) {
+  return getPackages(paths, opts).then(readPackageInfos);
 }
 
-function getOnlyPackages (files, done) {
-  reduce(files, [], function (result, file, cb) {
-    var pkg = join(file, 'package.json');
-    isExistingFile(pkg, function (yes) {
-      if (yes) {
-        result.push(pkg);
-      }
-      cb(null, result);
+function readPackageInfos(files) {
+  return reduce(function (result, file) {
+    return readPkg(file).then(function (pkg) {
+      pkg._path = dirname(file);
+      result.push(pkg);
+      return result;
     });
-  }, done);
+  }, [])(files);
 }
 
-function readPackageInfos (files, done) {
-  reduce(files, [], function (result, file, cb) {
-    readJson(file, function (err, pkg) {
-      if (err) {
-        return cb(err);
-      }
-      if (pkg) {
-        pkg._path = dirname(file);
-        result.push(pkg);
-      }
-      cb(null, result);
+function getPackages(paths, opts) {
+  opts = opts || {};
+  return reduce(function (result, path) {
+    return new Promise(function (resolve, reject) {
+      var error;
+      readdirp({root: path, depth: opts.recursive ? null : 1, fileFilter: 'package.json'})
+        .on('data', function (d) {
+          result.push(d.fullPath);
+        })
+        .on('error', function (err) {
+          error = err;
+        })
+        .on('end', function () {
+          if (error && error.code !== 'ENOENT') {
+            return reject(error);
+          }
+          resolve(result);
+        });
     });
-  }, done);
+  }, [])(paths);
 }
-
