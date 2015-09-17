@@ -9,5 +9,5 @@ sift.use({
 });
 
 module.exports = exports = function filter(arr, f) {
-  return Promise.resolve(sift(f || {}, arr));
+  return Promise.resolve(sift({pkg: f || {}}, arr));
 };
