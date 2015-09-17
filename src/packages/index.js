@@ -13,8 +13,7 @@ function getPackageInfos(paths, opts) {
 function readPackageInfos(files) {
   return reduce(function (result, file) {
     return readPkg(file).then(function (pkg) {
-      pkg._path = dirname(file);
-      result.push(pkg);
+      result.push({pkg: pkg, path: dirname(file)});
       return result;
     });
   }, [])(files);

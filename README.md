@@ -34,6 +34,19 @@ moduleFinder({
 })
 .then(function (modules) {
     console.log(modules);
+    /*
+      [
+        {
+          pkg: {
+            name: 'a-package',
+            version: '1.0.0',
+            ...
+          },
+          path: '/Users/joakimbeng/project/node_modules/a-package'
+        },
+        ...
+      ]
+    */
 });
 ```
 

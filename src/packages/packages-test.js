@@ -10,7 +10,7 @@ test('packages() gets all package info\'s for packages in given folders', functi
     .then(function (result) {
       assert.ok(Array.isArray(result), 'result should be an array');
       assert.ok(result.length, 'with contents');
-      var names = result.map(pluck('name'));
+      var names = result.map(pluck('pkg')).map(pluck('name'));
       assert.ok(names.indexOf('ava') > -1, 'ava should be one of the packages');
       assert.end();
     });
@@ -20,7 +20,7 @@ test('packages() attaches the package\'s path to its info object', function (ass
   return packages([packagesPath])
     .then(function (result) {
       assert.ok(
-        result.map(pluck('_path')).indexOf(path.join(packagesPath, 'ava')) > -1,
+        result.map(pluck('path')).indexOf(path.join(packagesPath, 'ava')) > -1,
         'ava\'s path should exist'
       );
       assert.end();
