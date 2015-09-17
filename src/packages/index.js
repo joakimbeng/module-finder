@@ -1,5 +1,4 @@
 'use strict';
-var dirname = require('path').dirname;
 var reduce = require('promise-reduce');
 var readPkg = require('read-pkg');
 var readdirp = require('readdirp');
@@ -13,7 +12,7 @@ function getPackageInfos(paths, opts) {
 function readPackageInfos(files) {
   return reduce(function (result, file) {
     return readPkg(file).then(function (pkg) {
-      result.push({pkg: pkg, path: dirname(file)});
+      result.push({pkg: pkg, path: file});
       return result;
     });
   }, [])(files);

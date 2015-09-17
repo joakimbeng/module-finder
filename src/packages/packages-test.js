@@ -16,12 +16,12 @@ test('packages() gets all package info\'s for packages in given folders', functi
     });
 });
 
-test('packages() attaches the package\'s path to its info object', function (assert) {
+test('packages() attaches the package\'s `package.json` path to its info object', function (assert) {
   return packages([packagesPath])
     .then(function (result) {
       assert.ok(
-        result.map(pluck('path')).indexOf(path.join(packagesPath, 'ava')) > -1,
-        'ava\'s path should exist'
+        result.map(pluck('path')).indexOf(path.join(packagesPath, 'ava', 'package.json')) > -1,
+        'ava\'s package.json path should exist'
       );
       assert.end();
     });
